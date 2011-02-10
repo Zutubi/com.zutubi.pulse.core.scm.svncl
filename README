@@ -1,0 +1,171 @@
+========================================================================
+Introduction
+========================================================================
+
+This package contains a sample SCM plugin for Pulse 2.2.  The plugin
+integrates with Subversion by wrapping the svn command-line client.
+It demonstrates all the basics of implementing an SCM plugin, but does
+not cover advanced functionality like personal builds (yet).
+
+========================================================================
+Contents
+========================================================================
+
+The layout of this package is as follows:
+
+README             - this file
+build.xml          - a simple Ant build file
+.classpath         - an Eclipse classpath file for the plugin project
+etc/               - contains third-party dependencies required by the
+                     build
+ivysettings.xml    - contains settings for Ivy (used in the build)
+ivy.xml            - defines the Ivy details of the plugin
+.project           - an Eclipse project for developing the plugin
+src/
+  java/            - Java source code for the plugin
+  resources/       - extra source files used to define plugin
+                     information
+
+========================================================================
+Building
+========================================================================
+
+To build the plugin as-is, you will require Apache Ant 1.7 or later.
+Building from scratch requires two steps:
+
+$ ant refresh.lib
+
+This target uses Ivy to download the plugin dependencies from
+zutubi.com and puts them in a lib/ subdirectory.  This step has been
+kept separate as it will usually only need to be done once.
+
+$ ant package
+
+This compiles the plugin, copies the resources and packages it all up
+in:
+
+build/com.zutubi.pulse.core.scm.svncl.jar
+
+a complete Pulse 2.2 plugin.  The plugin can be installed via the
+Pulse administration UI (see below).
+
+For information on other Ant targets, run "ant -p".
+
+========================================================================
+Installing
+========================================================================
+
+To install the plugin, go to the administration > plugins page of your
+Pulse server, scroll to the bottom of the table and click "install new
+plugin".  Then browse to the plugin file and upload it to the master.
+
+To uninstall the plugin, use the corresponding "uninstall" link in the
+plugins table.  Note that currently plugins cannot be uninstalled
+immediately - the plugin will remain in the "uninstalling" state until
+your Pulse server is restarted.
+
+------------------------------------------------------------------------
+Installing on Agents
+------------------------------------------------------------------------
+
+To install the plugin in a Pulse agent, you cannot currently go through
+the Pulse web interface.  Instead, you need to copy the plugin jar file
+into the agent's data directory at:
+
+$PULSE_DATA/plugins
+
+and restart the agent process.  In a later version of Pulse plugins
+will be automatically synchronised between the master and agents,
+making this step unnecessary.
+
+NOTE: in Pulse 2.3 and later, plugins installd on the master are
+synchronised to the agents automatically.
+
+------------------------------------------------------------------------
+Reinstalling
+------------------------------------------------------------------------
+
+If you are regular uninstalling/installing a plugin (likely during
+development), the fastest current way to do so is to:
+
+1) Shut down Pulse.
+2) Replace the plugin jar file in $PULSE_DATA/plugins with the new
+version.
+3) Start Pulse.
+
+Pulse will automatically pick up the new version when you start.
+
+If your plugin gets stuck in a bad state (usually caused by manifest or
+related errors), first fix the underlying issue in your plugin, then
+when installing your new jar also delete the file:
+
+$PULSE_DATA/plugins/plugin-registry.xml
+
+before restarting Pulse.  This clears all existing plugin errors.
+
+========================================================================
+Developing
+========================================================================
+
+To develop the plugin, consider making use of the package Eclipse
+project files, created with Eclipse 3.5.  These give an idea of how to
+set up the project to build in an IDE.
+
+Note that the Eclipse project links the JavaDoc documentation to the
+relevant jar files, which is very useful.  You can hover over class and
+method names to call up the documentation.
+
+------------------------------------------------------------------------
+Key Source Files
+------------------------------------------------------------------------
+
+SvnClient.java:
+The main plugin class, this implements the ScmClient interface which
+defines how Pulse talks to the SCM.
+
+SvnClientFactory.java:
+A simple factory for creating SvnClient instances from configuration
+instances.
+
+SvnCommandLine.java:
+Handles the low-level interaction with the svn command-line.
+
+SvnConfiguration.java:
+Defines the configuration for the plugin: i.e. what the user sees in
+the Pulse administration UI.
+
+------------------------------------------------------------------------
+Other Files
+------------------------------------------------------------------------
+
+If you would like to change details of the plugin itself, rather than
+just make incremental improvements, you may need to edit the following
+files:
+
+ivy.xml:
+Defines the name of the plugin, and its dependency on Pulse.
+
+src/resources/META-INF/MANIFEST.MF:
+An OSGi manifest file - declares details such as the plugin name,
+description and the Pulse plugin it depends on.
+
+src/resources/plugin.xml:
+Defines the extension points that the plugin "plugs into".
+
+src/java/...:
+Contains the actual plugin source code.
+
+========================================================================
+Further Help
+========================================================================
+
+For further assistance with plugin development, don't hesistate to
+contact us at:
+
+support@zutubi.com
+
+or via our forums:
+
+http://forums.zutubi.com/viewforum.php?f=8
+
+Happy plugging-in!

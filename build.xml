@@ -1,0 +1,52 @@
+<project name="svn command-line plugin" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+    <property name="src.dir" value="src"/>
+    <property name="java.src.dir" value="${src.dir}/java"/>
+    <property name="resources.dir" value="${src.dir}/resources"/>
+    <property name="manifest" value="${resources.dir}/META-INF/MANIFEST.MF"/>
+    <property name="build.dir" value="build"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    
+    <path id="lib.path.id">
+        <fileset dir="${lib.dir}" />
+	</path>
+    <path id="run.path.id">
+        <path refid="lib.path.id" />
+        <path location="${classes.dir}"/>
+    </path>
+
+    <path id="ivy.task.path">
+        <fileset dir="etc">
+            <include name="ivy*.jar"/>
+        </fileset>
+    </path>
+    <taskdef resource="org/apache/ivy/ant/antlib.xml"  uri="antlib:org.apache.ivy.ant" classpathref="ivy.task.path"/>
+    
+
+    <target name="refresh.lib" description="Retreive dependencies with Ivy.">
+        <delete dir="${lib.dir}"/>
+        <ivy:retrieve pattern="${lib.dir}/[artifact].[ext]"/>
+    </target>    
+    
+    <target name="compile" description="Compile the project.">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${java.src.dir}" destdir="${classes.dir}" classpathref="lib.path.id" debug="true" target="5"/>
+        <copy todir="${classes.dir}" overwrite="true">
+            <fileset dir="${java.src.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="package" depends="compile" description="Package up the plugin jar.">
+        <ivy:info/>
+        <jar file="build/${ivy.module}.jar" manifest="${manifest}">
+            <fileset dir="${classes.dir}"/>
+            <fileset dir="${resources.dir}" excludes="${manifest}"/>
+        </jar>
+    </target>
+
+    <target name="clean" description="Clean the project.">
+        <delete dir="${build.dir}"/>
+    </target>
+</project>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="http://www.jayasoft.fr/org/ivyrep/ivy-doc.xsl"?>
+<ivysettings>
+    <settings defaultResolver="public"/>
+
+    <resolvers>
+        <url name="public">
+            <ivy pattern="http://ivy.zutubi.com/[organisation]/[module]/ivy-[revision].xml"/>
+            <artifact pattern="http://ivy.zutubi.com/[organisation]/[module]/[type]s/[artifact]-[revision].[type]"/>
+        </url>
+    </resolvers>
+</ivysettings>
