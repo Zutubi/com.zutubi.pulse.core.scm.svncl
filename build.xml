@@ -46,6 +46,16 @@
         </jar>
     </target>
 
+    <target name="src.package">
+        <ivy:info/>
+        <property name="pack.dir" value="${build.dir}/${ivy.module}"/>
+        <delete dir="${pack.dir}"/>
+        <exec executable="svn">
+            <arg line="export . ${pack.dir}"/>
+        </exec>
+        <tar destfile="${pack.dir}.tar.gz" basedir="${build.dir}" includes="${ivy.module}/**" compression="gzip"/>
+    </target>
+
     <target name="clean" description="Clean the project.">
         <delete dir="${build.dir}"/>
     </target>

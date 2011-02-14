@@ -78,7 +78,7 @@ and restart the agent process.  In a later version of Pulse plugins
 will be automatically synchronised between the master and agents,
 making this step unnecessary.
 
-NOTE: in Pulse 2.3 and later, plugins installd on the master are
+NOTE: in Pulse 2.3 and later, plugins installed on the master are
 synchronised to the agents automatically.
 
 ------------------------------------------------------------------------
