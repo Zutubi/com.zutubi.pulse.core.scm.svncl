@@ -1,7 +1,7 @@
 <ivy-module version="2.0">
     <info organisation="zutubi" module="com.zutubi.pulse.core.scm.svncl"/>
     <dependencies>
-        <dependency org="zutubi" name="com.zutubi.pulse.core" rev="2.2.+" conf="*->build"/>
+        <dependency org="zutubi" name="com.zutubi.pulse.core" rev="2.4.+" conf="*->build"/>
     </dependencies>
 </ivy-module>
 

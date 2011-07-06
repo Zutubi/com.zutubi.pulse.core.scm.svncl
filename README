@@ -2,7 +2,7 @@
 Introduction
 ========================================================================
 
-This package contains a sample SCM plugin for Pulse 2.2.  The plugin
+This package contains a sample SCM plugin for Pulse 2.4.  The plugin
 integrates with Subversion by wrapping the svn command-line client.
 It demonstrates all the basics of implementing an SCM plugin, but does
 not cover advanced functionality like personal builds (yet).
@@ -46,7 +46,7 @@ in:
 
 build/com.zutubi.pulse.core.scm.svncl.jar
 
-a complete Pulse 2.2 plugin.  The plugin can be installed via the
+a complete Pulse 2.4 plugin.  The plugin can be installed via the
 Pulse administration UI (see below).
 
 For information on other Ant targets, run "ant -p".
@@ -68,18 +68,14 @@ your Pulse server is restarted.
 Installing on Agents
 ------------------------------------------------------------------------
 
-To install the plugin in a Pulse agent, you cannot currently go through
-the Pulse web interface.  Instead, you need to copy the plugin jar file
-into the agent's data directory at:
-
-$PULSE_DATA/plugins
-
-and restart the agent process.  In a later version of Pulse plugins
-will be automatically synchronised between the master and agents,
-making this step unnecessary.
-
-NOTE: in Pulse 2.3 and later, plugins installed on the master are
-synchronised to the agents automatically.
+Pulse 2.3 (and later) automatically synchronises plugins installed on
+the master to agents.  So no extra step is required to install on
+agents.  Note, however, that this is based on changing the plugin
+version number, so during the development cycle (when you may not be
+changing the version) updates to the plugin will not make it to agents.
+For this reason (among others), we recommend developing using a single
+local master installation, and only deploying properly version plugins
+to setups involving multiple agents.
 
 ------------------------------------------------------------------------
 Reinstalling
@@ -128,7 +124,8 @@ A simple factory for creating SvnClient instances from configuration
 instances.
 
 SvnCommandLine.java:
-Handles the low-level interaction with the svn command-line.
+Handles interaction with the svn command-line with the help of
+supporting classes from the API.
 
 SvnConfiguration.java:
 Defines the configuration for the plugin: i.e. what the user sees in

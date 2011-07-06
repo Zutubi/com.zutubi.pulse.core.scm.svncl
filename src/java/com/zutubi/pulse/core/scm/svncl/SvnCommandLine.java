@@ -5,16 +5,14 @@ import static com.zutubi.pulse.core.scm.svncl.SvnConstants.FLAG_NON_INTERACTIVE;
 import static com.zutubi.pulse.core.scm.svncl.SvnConstants.FLAG_PASSWORD;
 import static com.zutubi.pulse.core.scm.svncl.SvnConstants.FLAG_USER;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import com.zutubi.pulse.core.scm.api.ScmException;
 import com.zutubi.pulse.core.scm.api.ScmFeedbackHandler;
-import com.zutubi.pulse.core.util.process.AsyncProcess;
-import com.zutubi.pulse.core.util.process.LineHandler;
+import com.zutubi.pulse.core.scm.process.api.ScmLineHandlerSupport;
+import com.zutubi.pulse.core.scm.process.api.ScmProcessRunner;
 import com.zutubi.util.StringUtils;
 
 /**
@@ -23,7 +21,7 @@ import com.zutubi.util.StringUtils;
  */
 public class SvnCommandLine
 {
-    private SvnConfiguration config;
+	private SvnConfiguration config;
 
     public SvnCommandLine(SvnConfiguration config)
     {
@@ -47,20 +45,31 @@ public class SvnCommandLine
      */
     public List<String> run(final ScmFeedbackHandler handler, String... arguments) throws ScmException
     {
-        ProcessBuilder builder = new ProcessBuilder(resolveCommand(arguments));        
-        List<String> output = new LinkedList<String>();
-        
-        AsyncProcess process = startProcess(handler, builder, output);
-        int exitCode = waitForProcessToComplete(process, handler);
-        if (exitCode != 0)
-        {
-            throw new ScmException("Child svn process exited with code " + exitCode);
-        }
-        
+        final List<String> output = new LinkedList<String>();
+    	ScmProcessRunner runner = new ScmProcessRunner("svn");
+    	runner.setInactivityTimeout(config.getInactivityTimeout());
+    	runner.runProcess(new ScmLineHandlerSupport()
+    	{
+			@Override
+			public void handleStdout(String line)
+			{
+				output.add(line);
+			}
+
+			@Override
+			public void handleCommandLine(String commandLine)
+			{
+				if (handler != null)
+				{
+					handler.status(">> " + getCleanedCommandLine(commandLine));
+				}
+			}
+    	}, resolveCommand(arguments));
+    	
         return output;
     }
 
-    private List<String> resolveCommand(String... command)
+    private String[] resolveCommand(String... command)
     {
         List<String> result = new LinkedList<String>();
         result.add(COMMAND_SVN);
@@ -79,53 +88,15 @@ public class SvnCommandLine
         
         result.add(FLAG_NON_INTERACTIVE);
         result.addAll(Arrays.asList(command));
-        return result;
+        return result.toArray(new String[result.size()]);
     }
 
-    private AsyncProcess startProcess(final ScmFeedbackHandler handler, ProcessBuilder builder, final List<String> output) throws ScmException
-    {
-        if (handler != null)
-        {
-            handler.status(getCleanedCommandLine(builder));
-        }
-        
-        Process p;
-        try
-        {
-            p = builder.start();
-        }
-        catch (IOException e)
-        {
-            throw new ScmException("Unable to start svn process: " + e.getMessage(), e);
-        }
-        
-        AsyncProcess process = new AsyncProcess(p, new LineHandler()
-        {
-            @Override
-            public void handle(String line, boolean error)
-            {
-                if (handler != null)
-                {
-                    handler.status(line);
-                }
-                
-                if (!error)
-                {
-                    output.add(line);
-                }
-            }
-            
-        }, true);
-        
-        return process;
-    }
-
-    private String getCleanedCommandLine(ProcessBuilder builder)
+    private String getCleanedCommandLine(String commandLine)
     {
         StringBuilder result = new StringBuilder();
         result.append(">>");
         boolean suppress = false;
-        for (String s: builder.command())
+        for (String s: commandLine.split("\\s+"))
         {
             result.append(" ");
             if (suppress)
@@ -141,35 +112,5 @@ public class SvnCommandLine
             suppress = s.equals(FLAG_PASSWORD);
         }
         return result.toString();
-    }
-
-    private Integer waitForProcessToComplete(AsyncProcess process, final ScmFeedbackHandler handler) throws ScmException
-    {
-        Integer exitCode;
-        try
-        {
-            do
-            {
-                exitCode = process.waitFor(10, TimeUnit.SECONDS);
-                if (handler != null)
-                {
-                    handler.checkCancelled();
-                }
-            }
-            while (exitCode == null);
-        }
-        catch (IOException e)
-        {
-            throw new ScmException("Error running svn process: " + e.getMessage(), e);
-        }
-        catch (InterruptedException e)
-        {
-            throw new ScmException("Interrupted while running svn process: " + e.getMessage(), e);
-        }
-        finally
-        {
-            process.destroy();
-        }
-        return exitCode;
     }
 }

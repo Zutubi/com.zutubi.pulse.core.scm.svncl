@@ -3,57 +3,90 @@
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/acegi-security-tiger.jar"/>
-	<classpathentry kind="lib" path="lib/acegi-security.jar"/>
-	<classpathentry kind="lib" path="lib/activation.jar"/>
-	<classpathentry kind="lib" path="lib/apache-ant-directoryscanner.jar"/>
 	<classpathentry kind="lib" path="lib/boot.jar"/>
-	<classpathentry kind="lib" path="lib/cglib-nodep.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.events-test.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.events.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.i18n-test.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.i18n.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.pulse.core-test.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.pulse.core.jar">
+	<classpathentry kind="lib" path="lib/com.opensymphony.util.jar"/>
+	<classpathentry kind="lib" path="lib/com.opensymphony.xwork.jar"/>
+	<classpathentry kind="lib" path="lib/com.sshtools.j2ssh.common.jar"/>
+	<classpathentry kind="lib" path="lib/com.sshtools.j2ssh.core.jar"/>
+	<classpathentry kind="lib" path="lib/com.thoughtworks.xstream.jar"/>
+	<classpathentry kind="lib" path="lib/com.uwyn.rife.continuations.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.diff.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.2/javadoc/"/>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.4/javadoc"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/com.zutubi.tove-test.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.tove.annotations.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.tove.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.util-test.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.util.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.validation-test.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.validation.annotations.jar"/>
-	<classpathentry kind="lib" path="lib/com.zutubi.validation.jar"/>
-	<classpathentry kind="lib" path="lib/commons-cli.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec.jar"/>
-	<classpathentry kind="lib" path="lib/commons-httpclient.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-api.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
-	<classpathentry kind="lib" path="lib/hamcrest-all.jar"/>
-	<classpathentry kind="lib" path="lib/j2ssh-common.jar"/>
-	<classpathentry kind="lib" path="lib/j2ssh-core.jar"/>
-	<classpathentry kind="lib" path="lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/mail.jar"/>
-	<classpathentry kind="lib" path="lib/mockito-core.jar"/>
-	<classpathentry kind="lib" path="lib/objenesis.jar"/>
-	<classpathentry kind="lib" path="lib/ognl.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.events.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.4/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/com.zutubi.i18n.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.4/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/com.zutubi.pulse.core.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.4/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/com.zutubi.tove.annotations.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.4/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/com.zutubi.tove.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.4/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/com.zutubi.util.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.4/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/com.zutubi.validation.annotations.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.4/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/com.zutubi.validation.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.4/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/javax.activation.jar"/>
+	<classpathentry kind="lib" path="lib/javax.mail.jar"/>
+	<classpathentry kind="lib" path="lib/net.sf.cglib-nodep.jar"/>
+	<classpathentry kind="lib" path="lib/nu.xom.jar"/>
+	<classpathentry kind="lib" path="lib/org.aopalliance.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.ant-directoryscanner.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.cli.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.codec.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.httpclient.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.lang.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.logging.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.ivy.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.ws.commons.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.xmlrpc.jar"/>
+	<classpathentry kind="lib" path="lib/org.aspectj.weaver.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.jobs_3.3.0.v20070423.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common_3.3.0.v20070426.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.equinox.registry_3.3.0.v20070522.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.osgi_3.3.0.v20070530.jar"/>
-	<classpathentry kind="lib" path="lib/oscore.jar"/>
-	<classpathentry kind="lib" path="lib/rife-continuations.jar"/>
-	<classpathentry kind="lib" path="lib/spring-beans.jar"/>
-	<classpathentry kind="lib" path="lib/spring-context.jar"/>
-	<classpathentry kind="lib" path="lib/spring-core.jar"/>
-	<classpathentry kind="lib" path="lib/spring-web.jar"/>
-	<classpathentry kind="lib" path="lib/ws-commons-util.jar"/>
-	<classpathentry kind="lib" path="lib/xmlrpc.jar"/>
-	<classpathentry kind="lib" path="lib/xom.jar"/>
-	<classpathentry kind="lib" path="lib/xstream.jar"/>
-	<classpathentry kind="lib" path="lib/xwork.jar"/>
+	<classpathentry kind="lib" path="lib/org.ognl.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.aop.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.asm.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.beans.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.context.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.context.support.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.core.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.expression.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.ldap.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.security.acls.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.security.core.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.transaction.jar"/>
+	<classpathentry kind="lib" path="lib/sjsxp-jsr173-api.jar"/>
+	<classpathentry kind="lib" path="lib/sjsxp.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
