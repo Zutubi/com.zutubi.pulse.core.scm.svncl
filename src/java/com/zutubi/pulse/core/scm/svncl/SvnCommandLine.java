@@ -1,3 +1,4 @@
+
 package com.zutubi.pulse.core.scm.svncl;
 
 import static com.zutubi.pulse.core.scm.svncl.SvnConstants.COMMAND_SVN;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.zutubi.pulse.core.engine.api.ExecutionContext;
 import com.zutubi.pulse.core.scm.api.ScmException;
 import com.zutubi.pulse.core.scm.api.ScmFeedbackHandler;
 import com.zutubi.pulse.core.scm.process.api.ScmLineHandlerSupport;
@@ -21,7 +23,7 @@ import com.zutubi.util.StringUtils;
  */
 public class SvnCommandLine
 {
-	private SvnConfiguration config;
+    private SvnConfiguration config;
 
     public SvnCommandLine(SvnConfiguration config)
     {
@@ -34,6 +36,7 @@ public class SvnCommandLine
      * process is run in a separate thread, but this method will await its
      * completion (unless cancelled via the handler).
      * 
+     * @param executionContext context in which the command is run
      * @param handler   if not null, a handler that will receive output from
      *                  the process as it runs, and will be polled regularly to
      *                  check for a cancelled operation
@@ -43,29 +46,30 @@ public class SvnCommandLine
      * @throws ScmException on any error, including a non-zero exit code from
      *                      the child process
      */
-    public List<String> run(final ScmFeedbackHandler handler, String... arguments) throws ScmException
+    public List<String> run(final ExecutionContext executionContext, final ScmFeedbackHandler handler, String... arguments)
+            throws ScmException
     {
         final List<String> output = new LinkedList<String>();
-    	ScmProcessRunner runner = new ScmProcessRunner("svn");
-    	runner.setInactivityTimeout(config.getInactivityTimeout());
-    	runner.runProcess(new ScmLineHandlerSupport()
-    	{
-			@Override
-			public void handleStdout(String line)
-			{
-				output.add(line);
-			}
+        ScmProcessRunner runner = new ScmProcessRunner("svn", executionContext);
+        runner.setInactivityTimeout(config.getInactivityTimeout());
+        runner.runProcess(new ScmLineHandlerSupport()
+        {
+            @Override
+            public void handleStdout(String line)
+            {
+                output.add(line);
+            }
 
-			@Override
-			public void handleCommandLine(String commandLine)
-			{
-				if (handler != null)
-				{
-					handler.status(">> " + getCleanedCommandLine(commandLine));
-				}
-			}
-    	}, resolveCommand(arguments));
-    	
+            @Override
+            public void handleCommandLine(String commandLine)
+            {
+                if (handler != null)
+                {
+                    handler.status(">> " + getCleanedCommandLine(commandLine));
+                }
+            }
+        }, resolveCommand(arguments));
+
         return output;
     }
 
@@ -73,19 +77,19 @@ public class SvnCommandLine
     {
         List<String> result = new LinkedList<String>();
         result.add(COMMAND_SVN);
-        
+
         if (StringUtils.stringSet(config.getUsername()))
         {
             result.add(FLAG_USER);
             result.add(config.getUsername());
         }
-        
+
         if (StringUtils.stringSet(config.getPassword()))
         {
             result.add(FLAG_PASSWORD);
             result.add(config.getPassword());
         }
-        
+
         result.add(FLAG_NON_INTERACTIVE);
         result.addAll(Arrays.asList(command));
         return result.toArray(new String[result.size()]);
@@ -96,7 +100,7 @@ public class SvnCommandLine
         StringBuilder result = new StringBuilder();
         result.append(">>");
         boolean suppress = false;
-        for (String s: commandLine.split("\\s+"))
+        for (String s : commandLine.split("\\s+"))
         {
             result.append(" ");
             if (suppress)
@@ -107,8 +111,7 @@ public class SvnCommandLine
             {
                 result.append(s);
             }
-            
-            
+
             suppress = s.equals(FLAG_PASSWORD);
         }
         return result.toString();

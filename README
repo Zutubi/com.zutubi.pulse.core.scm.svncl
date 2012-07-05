@@ -2,7 +2,7 @@
 Introduction
 ========================================================================
 
-This package contains a sample SCM plugin for Pulse 2.4.  The plugin
+This package contains a sample SCM plugin for Pulse 2.5.  The plugin
 integrates with Subversion by wrapping the svn command-line client.
 It demonstrates all the basics of implementing an SCM plugin, but does
 not cover advanced functionality like personal builds (yet).
@@ -46,7 +46,7 @@ in:
 
 build/com.zutubi.pulse.core.scm.svncl.jar
 
-a complete Pulse 2.4 plugin.  The plugin can be installed via the
+a complete Pulse 2.5 plugin.  The plugin can be installed via the
 Pulse administration UI (see below).
 
 For information on other Ant targets, run "ant -p".
